@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h2>@ViewBag.Message</h2>
+
+
+    <p><a href="/Account/Logout" class="btn btn-primary btn-lg">Logout</a>
+    </p>
+
+
+        <h2>Welcome: @ViewBag.ClaimsIdentity.Name</h2>
+        <h3>Values from Identity</h3>
+        <table>
+            <tr>
+                <th>
+                    IsAuthenticated
+                </th>
+                <td>
+                    @ViewBag.ClaimsIdentity.IsAuthenticated
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <td>
+                    @ViewBag.ClaimsIdentity.Name
+                </td>
+            </tr>
+        </table>
+        <h3>Claims from ClaimsIdentity</h3>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>
+                    Claim Type
+                </th>
+                <th>
+                    Claim Value
+                </th>
+                @*<th>
+                        Value Type
+                    </th>
+                    <th>
+                        Subject Name
+                    </th>
+                    <th>
+                        Issuer Name
+                    </th>*@
+            </tr>
+            @foreach (Microsoft.IdentityModel.Claims.Claim claim in ViewBag.ClaimsIdentity.Claims)
+            {
+                <tr>
+                    <td>
+                        @claim.ClaimType
+                    </td>
+                    <td>
+                        @claim.Value
+                    </td>
+                    @*<td>
+                            @claim.ValueType
+                        </td>
+                        <td>
+                            @claim.Subject.Name
+                        </td>
+                        <td>
+                            @claim.Issuer
+                        </td>*@
+                </tr>
+            }
+        </table>
+        }
+        else
+        {
+    <p>@Html.ActionLink("Login with Auth0", "Login", "Account", null, new { @class = "btn btn-primary btn-lg" })</p>
+}
+
